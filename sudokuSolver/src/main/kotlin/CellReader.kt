@@ -35,6 +35,7 @@ class CellReader(filePath: String) {
                 possibleValues = line.split(" ")
             } else if (index > 1 && line != "") {
                 val cellList = line.split(" ")
+                var column = 0
                 for (value in cellList) {
                     val cell = Cell()
                     if (value != "-") {
@@ -43,8 +44,10 @@ class CellReader(filePath: String) {
                     } else {
                         cell.possibleValues = possibleValues as MutableList<String>;
                     }
-
+                    cell.x = index - 2
+                    cell.y = column
                     cells[index - 2].add(cell)
+                    column += 1
                 }
             }
         }

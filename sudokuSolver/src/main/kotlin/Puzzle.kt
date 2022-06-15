@@ -1,12 +1,20 @@
+import kotlin.math.sqrt
+
 class Puzzle(cells: MutableList<MutableList<Cell>>) {
     val cells = cells
     var solved = false
 
+    init {
+        val sqrRoot = sqrt(cells[0].size.toDouble())
+        if (sqrRoot * sqrRoot != cells[0].size.toDouble()) {
+            throw Exception("Provided puzzle is not a perfect square")
+        }
+    }
     fun checkSolution(): Boolean {
         var solution = true
         repeat(cells.size) {
             repeat(cells[it].size) { cellIndex ->
-                if (cells[it][cellIndex].solved == false) {
+                if (!cells[it][cellIndex].solved) {
                     solution = false
                 }
             }
