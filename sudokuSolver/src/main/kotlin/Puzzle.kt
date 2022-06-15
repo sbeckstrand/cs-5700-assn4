@@ -2,8 +2,21 @@ class Puzzle(cells: MutableList<MutableList<Cell>>) {
     val cells = cells
     var solved = false
 
-    fun checkSolution() {
-        println("blah")
+    fun checkSolution(): Boolean {
+        var solution = true
+        repeat(cells.size) {
+            repeat(cells[it].size) { cellIndex ->
+                if (cells[it][cellIndex].solved == false) {
+                    solution = false
+                }
+            }
+        }
+
+        if (solution) {
+            solved = true
+        }
+
+        return solved
     }
 
     fun clone(): Puzzle {
