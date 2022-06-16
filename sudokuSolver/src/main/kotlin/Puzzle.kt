@@ -3,14 +3,35 @@ import kotlin.math.sqrt
 class Puzzle(cells: MutableList<MutableList<Cell>>) {
     val cells = cells
     var solved = false
+    var bad = false
+    var badReason = ""
 
     init {
         val sqrRoot = sqrt(cells[0].size.toDouble())
         if (sqrRoot * sqrRoot != cells[0].size.toDouble()) {
-            throw Exception("Provided puzzle is not a perfect square")
+            bad = true
+            badReason = "Puzzle is in the wrong format. Not a perfect square"
+        }
+
+        if (cells.size != cells[0].size) {
+            bad = true
+            badReason = "Puzzle is in the wrong format. Uneven number of columns and rows"
+        }
+
+        var evenColumns = true
+        val firstRow = cells[0].size
+        for (row in cells) {
+            if (row.size != firstRow) {
+                evenColumns = false
+            }
+        }
+
+        if (!evenColumns) {
+            bad = true
+            badReason = "At least one column is has a different number of values than other columns"
         }
     }
-    fun checkSolution(): Boolean {
+    fun checkSolution() {
         var solution = true
         repeat(cells.size) {
             repeat(cells[it].size) { cellIndex ->
@@ -23,8 +44,6 @@ class Puzzle(cells: MutableList<MutableList<Cell>>) {
         if (solution) {
             solved = true
         }
-
-        return solved
     }
 
     fun clone(): Puzzle {
